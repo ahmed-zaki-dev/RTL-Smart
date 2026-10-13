@@ -1,9 +1,9 @@
 <div align="center">
   <img width="128" height="128" alt="RTL Smart Icon" src="https://github.com/user-attachments/assets/cfc5a276-e700-467a-95ec-df568d40fb11" />
-  <h1>RTL Smart 🚀</h1>
+  <h1>RTL Smart </h1>
 </div>
 
-**RTL Smart** is a simple Chrome extension that fixes text direction for Arabic text on any website.
+**RTL Smart** is a simple Chrome extension that fixes text direction for Arabic text on any website however you can use manual mode for any language.
 
 ---
 
@@ -14,16 +14,15 @@ Some big AI websites like **Google Gemini** or **ChatGPT** have complex code tha
 **RTL Smart fixes this problem easily!** You can pick any broken text, fix it once, and the extension will remember it forever.
 
 ### How to use it:
-1. Click the extension icon and choose **"Fix an element manually"**.
-2. Or just press **`Alt + Shift + H`** on your keyboard.
-3. Move your mouse over the text you want to fix (a purple box will show up).
-4. Click it, select **RTL (right)**, and you are done!
+1. Click the extension icon and choose **"Fix an element manually"** Or just press **`Alt + Shift + H`** on your keyboard.
+2. Move your mouse over the text you want to fix (a purple box will show up).
+3. Click it, select **RTL (right)**, and you are done!
 
 ---
 
 ## ⌨️ Keyboard Shortcuts
 
-* **`Alt + Shift + H`**: Open the element picker to fix text.
+* **`Alt + Shift + H`**: Open the element picker to fix text(manual).
 * **`Alt + Shift + E`**: Turn the extension ON or OFF.
 
 ---
