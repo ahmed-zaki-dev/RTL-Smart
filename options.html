@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RTL Smart</title>
+  <style>
+    :root {
+      --green: #16a34a;
+      --red: #dc2626;
+      --blue: #2563eb;
+      --purple: #4f46e5;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --bg: #f9fafb;
+      --card: #ffffff;
+      --code-bg: #f3f4f6;
+      --hover: #f3f4f6;
+      --hover-red: #fef2f2;
+      --hover-blue: #eff6ff;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --green: #4ade80; --red: #f87171; --blue: #60a5fa; --purple: #a78bfa;
+        --text: #f4f4f5; --muted: #a1a1aa; --border: #2e2e33;
+        --bg: #111113; --card: #18181b; --code-bg: #232327; --hover: #232327;
+        --hover-red: rgba(248,113,113,.12); --hover-blue: rgba(96,165,250,.12);
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --green: #4ade80; --red: #f87171; --blue: #60a5fa; --purple: #a78bfa;
+      --text: #f4f4f5; --muted: #a1a1aa; --border: #2e2e33;
+      --bg: #111113; --card: #18181b; --code-bg: #232327; --hover: #232327;
+      --hover-red: rgba(248,113,113,.12); --hover-blue: rgba(96,165,250,.12);
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* Header */
+    header {
+      position: relative;
+      padding: 28px 16px;
+      text-align: center;
+      color: #fff;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    }
+    :root[data-theme="dark"] header { background: linear-gradient(135deg, #3730a3, #5b21b6); }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) header { background: linear-gradient(135deg, #3730a3, #5b21b6); }
+    }
+    header h1 { margin: 0; font-size: 22px; font-weight: 700; }
+    header p  { margin: 6px 0 0; font-size: 13px; opacity: 0.85; }
+
+    #langBtn, #themeBtn {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    #themeBtn { left: auto; right: 14px; }
+    #langBtn:hover, #themeBtn:hover { background: rgba(255, 255, 255, 0.35); }
+    #langBtn svg, #themeBtn svg { width: 18px; height: 18px; }
+    #themeBtn .sun { display: none; }
+    :root[data-theme="dark"] #themeBtn .sun { display: block; }
+    :root[data-theme="dark"] #themeBtn .moon { display: none; }
+
+    main { max-width: 680px; margin: 0 auto; padding: 20px 16px 48px; }
+
+    /* Panels */
+    .panel {
+      margin-top: 20px;
+      padding: 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+    .panel h2 { margin: 0; font-size: 16px; }
+    .panel .desc { margin: 4px 0 14px; font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .empty {
+      padding: 22px 8px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+    }
+
+    /* Site group (rules) */
+    .site {
+      margin-top: 10px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .site-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: var(--code-bg);
+    }
+    .site-head .host {
+      direction: ltr;
+      font-size: 13px;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .count {
+      padding: 1px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--purple);
+      border: 1px solid var(--purple);
+      border-radius: 999px;
+    }
+    .spacer { flex: 1; }
+
+    .rule {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-top: 1px solid var(--border);
+    }
+    .dir {
+      flex-shrink: 0;
+      min-width: 42px;
+      padding: 2px 0;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+      color: #fff;
+      border-radius: 6px;
+    }
+    .dir.rtl { background: var(--purple); }
+    .dir.ltr { background: var(--blue); }
+    .selector {
+      flex: 1;
+      min-width: 0;
+      direction: ltr;
+      text-align: left;
+      font: 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Rows (disabled sites) */
+    .site-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .site-row .host {
+      flex: 1;
+      min-width: 0;
+      direction: ltr;
+      text-align: left;
+      font-size: 13px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Buttons */
+    .btn {
+      flex-shrink: 0;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .btn:hover { background: var(--hover); }
+    .btn.danger { color: var(--red); border-color: var(--red); }
+    .btn.danger:hover { background: var(--hover-red); }
+    .btn.allow { color: var(--blue); border-color: var(--blue); }
+    .btn.allow:hover { background: var(--hover-blue); }
+    .btn.icon { width: 28px; height: 28px; padding: 0; line-height: 1; font-size: 14px; }
+
+    /* Add-site form */
+    .add { display: flex; gap: 8px; margin-top: 14px; }
+    .add input {
+      flex: 1;
+      min-width: 0;
+      padding: 8px 10px;
+      direction: ltr;
+      font-size: 13px;
+      color: var(--text);
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+    }
+    .add input:focus { border-color: var(--purple); }
+    #addMsg { margin-top: 6px; min-height: 16px; font-size: 12px; color: var(--red); }
+
+    /* Keyboard shortcuts */
+    .shortcut {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .shortcut .name { flex: 1; min-width: 0; font-size: 13px; }
+    kbd {
+      direction: ltr;
+      padding: 2px 8px;
+      font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: var(--text);
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    kbd.unset { font-family: inherit; font-weight: 500; color: var(--muted); }
+    .panel .foot { margin-top: 12px; }
+
+    button:focus-visible { outline: 2px solid var(--purple); outline-offset: 2px; }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      transform: translate(-50%, 20px);
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      background: var(--green);
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      opacity: 0;
+      pointer-events: none;
+      white-space: nowrap;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    #toast.show { opacity: 1; transform: translate(-50%, 0); }
+  </style>
+</head>
+<body>
+  <header>
+    <button id="langBtn" type="button" aria-label="Language">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M3 12h18"/>
+        <path d="M12 3c3 3 4 6 4 9s-1 6-4 9c-3-3-4-6-4-9s1-6 4-9z"/>
+      </svg>
+    </button>
+    <button id="themeBtn" type="button" aria-label="Theme">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+      </svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+      </svg>
+    </button>
+    <h1>RTL Smart</h1>
+    <p id="subtitle"></p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2 id="rulesTitle"></h2>
+      <p id="rulesDesc" class="desc"></p>
+      <div id="rulesList"></div>
+    </section>
+
+    <section class="panel">
+      <h2 id="sitesTitle"></h2>
+      <p id="sitesDesc" class="desc"></p>
+      <div id="sitesList"></div>
+      <div class="add">
+        <input id="addInput" type="text" spellcheck="false" autocomplete="off" placeholder="example.com">
+        <button id="addBtn" type="button" class="btn danger"></button>
+      </div>
+      <div id="addMsg"></div>
+    </section>
+
+    <section class="panel">
+      <h2 id="keysTitle"></h2>
+      <p id="keysDesc" class="desc"></p>
+      <div id="keysList"></div>
+      <div class="foot"><button id="keysBtn" type="button" class="btn"></button></div>
+    </section>
+  </main>
+
+  <div id="toast"></div>
+
+  <script src="options.js"></script>
+</body>
+</html>

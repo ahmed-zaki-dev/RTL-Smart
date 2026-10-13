@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "RTL Smart",
+  "version": "2.0",
+  "description": "Smart automatic text direction for web pages.",
+  "icons": {
+    "16": "icons/16.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "background": { "service_worker": "background.js" },
+  "commands": {
+    "pick-element": {
+      "suggested_key": { "default": "Alt+Shift+H" },
+      "description": "تصحيح عنصر يدويًا / Fix an element manually"
+    },
+    "toggle-extension": {
+      "suggested_key": { "default": "Alt+Shift+E" },
+      "description": "تشغيل / إيقاف الإضافة / Turn the extension on or off"
+    }
+  },
+  "options_ui": { "page": "options.html", "open_in_tab": true },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "RTL Smart",
+    "default_icon": {
+      "16": "icons/16.png",
+      "48": "icons/48.png",
+      "128": "icons/128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

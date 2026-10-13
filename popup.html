@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    :root {
+      --green: #16a34a;
+      --red: #dc2626;
+      --blue: #2563eb;
+      --purple: #4f46e5;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --bg: #ffffff;
+      --track: #d1d5db;
+      --hover-red: #fef2f2;
+      --hover-blue: #eff6ff;
+      --hover-purple: #eef2ff;
+      color-scheme: light;
+    }
+
+    /* Dark: follows the system unless light is chosen */
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --green: #4ade80; --red: #f87171; --blue: #60a5fa; --purple: #a78bfa;
+        --text: #f4f4f5; --muted: #a1a1aa; --border: #2e2e33; --bg: #18181b;
+        --track: #3f3f46;
+        --hover-red: rgba(248,113,113,.12);
+        --hover-blue: rgba(96,165,250,.12);
+        --hover-purple: rgba(167,139,250,.14);
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --green: #4ade80; --red: #f87171; --blue: #60a5fa; --purple: #a78bfa;
+      --text: #f4f4f5; --muted: #a1a1aa; --border: #2e2e33; --bg: #18181b;
+      --track: #3f3f46;
+      --hover-red: rgba(248,113,113,.12);
+      --hover-blue: rgba(96,165,250,.12);
+      --hover-purple: rgba(167,139,250,.14);
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      width: 260px;
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* Header */
+    header {
+      position: relative;
+      padding: 16px;
+      text-align: center;
+      color: #fff;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    }
+    :root[data-theme="dark"] header { background: linear-gradient(135deg, #3730a3, #5b21b6); }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) header { background: linear-gradient(135deg, #3730a3, #5b21b6); }
+    }
+    header h1 { margin: 0; font-size: 17px; font-weight: 700; }
+    header p  { margin: 4px 0 0; font-size: 12px; opacity: 0.85; }
+
+    /* Language and theme buttons keep their physical side in both languages */
+    #langBtn, #themeBtn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    #themeBtn { left: auto; right: 10px; }
+    #langBtn:hover, #themeBtn:hover { background: rgba(255, 255, 255, 0.35); }
+    #langBtn svg, #themeBtn svg { width: 18px; height: 18px; }
+    /* Moon in light, sun in dark */
+    #themeBtn .sun { display: none; }
+    :root[data-theme="dark"] #themeBtn .sun { display: block; }
+    :root[data-theme="dark"] #themeBtn .moon { display: none; }
+
+    main { padding: 16px; }
+
+    /* Main toggle row */
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .row + .row { margin-top: 10px; }
+    .row .label { font-size: 14px; font-weight: 600; }
+    .row .sub { font-size: 12px; margin-top: 2px; color: var(--muted); }
+    .row .status { font-size: 12px; margin-top: 2px; }
+    .status.on  { color: var(--green); }
+    .status.off { color: var(--red); }
+
+    /* Switch */
+    .switch { position: relative; width: 46px; height: 26px; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; inset: 0;
+      background: var(--track);
+      border-radius: 26px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 20px; height: 20px;
+      top: 3px;
+      inset-inline-start: 3px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+    .switch input:checked + .slider { background: var(--green); }
+    .switch input:checked + .slider::before { transform: translateX(20px); }
+    [dir="rtl"] .switch input:checked + .slider::before { transform: translateX(-20px); }
+
+    /* Site section */
+    .site { margin-top: 14px; text-align: center; }
+    .site .host {
+      direction: ltr;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    /* Quiet counter */
+    #count {
+      margin: -4px 0 8px;
+      font-size: 11px;
+      color: var(--muted);
+      opacity: 0.85;
+    }
+    #count:empty { display: none; }
+
+    #siteBtn, #pickBtn {
+      width: 100%;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      background: var(--bg);
+      transition: background 0.15s, opacity 0.15s;
+    }
+    #siteBtn.block { color: var(--red);  border: 1.5px solid var(--red); }
+    #siteBtn.block:hover:not(:disabled) { background: var(--hover-red); }
+    #siteBtn.allow { color: var(--blue); border: 1.5px solid var(--blue); }
+    #siteBtn.allow:hover:not(:disabled) { background: var(--hover-blue); }
+
+    /* Manual fix tools */
+    .tools { margin-top: 10px; }
+    #pickBtn { color: var(--purple); border: 1.5px solid var(--purple); }
+    #pickBtn:hover:not(:disabled) { background: var(--hover-purple); }
+    #clearBtn, #optionsBtn {
+      display: block;
+      margin: 8px auto 0;
+      padding: 2px 6px;
+      font-size: 12px;
+      color: var(--muted);
+      background: none;
+      border: none;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    #clearBtn:disabled { display: none; }
+    #note { margin-top: 8px; font-size: 12px; color: var(--red); text-align: center; }
+    #note.info { color: var(--muted); }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: 12px;
+      transform: translate(-50%, 20px);
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+      background: var(--green);
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      opacity: 0;
+      pointer-events: none;
+      white-space: nowrap;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    #toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button id="langBtn" type="button" title="Language / اللغة" aria-label="Language">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M3 12h18"/>
+        <path d="M12 3c3 3 4 6 4 9s-1 6-4 9c-3-3-4-6-4-9s1-6 4-9z"/>
+      </svg>
+    </button>
+    <button id="themeBtn" type="button" aria-label="Theme">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+      </svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+      </svg>
+    </button>
+    <h1>RTL Smart</h1>
+    <p id="subtitle"></p>
+  </header>
+
+  <main>
+    <div class="row">
+      <div>
+        <div id="label" class="label"></div>
+        <div id="status" class="status"></div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="toggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="row">
+      <div>
+        <div id="scrollLabel" class="label"></div>
+        <div id="scrollHint" class="sub"></div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="scrollToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="site">
+      <div id="siteHost" class="host"></div>
+      <div id="count"></div>
+      <button id="siteBtn" disabled>...</button>
+    </div>
+
+    <div class="tools">
+      <button id="pickBtn" disabled>...</button>
+      <button id="clearBtn" disabled></button>
+      <button id="optionsBtn" type="button"></button>
+      <div id="note"></div>
+    </div>
+  </main>
+
+  <div id="toast"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
