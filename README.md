@@ -1,43 +1,45 @@
-# RTL Smart 🚀
+<div align="center">
+  <img width="128" height="128" alt="RTL Smart Icon" src="https://github.com/user-attachments/assets/cfc5a276-e700-467a-95ec-df568d40fb11" />
+  <h1>RTL Smart 🚀</h1>
+</div>
 
-**RTL Smart** is a simple Chrome Extension that automatically fixes text direction for Arabic and right-to-left (RTL) content on any website.
-
----
-
-## ✨ Features
-
-- **Smart Direction**: Automatically detects Arabic text and aligns paragraphs to the right (RTL).
-- **Manual Element Fix**: Click on any element to manually fix its direction.
-- **Scroll Button**: Floating button to quickly jump to the top or bottom of long pages.
-- **Dark Mode Support**: Beautiful design that adapts to dark or light themes.
-- **Multi-language**: Works seamlessly in Arabic and English.
+**RTL Smart** is a simple Chrome extension that fixes text direction for Arabic text on any website.
 
 ---
 
-## 🛠️ How to Install on Google Chrome
+## 🎯 Main Feature: Fix Any Element Manually
 
-Follow these simple steps to install the extension manually:
+Some big AI websites like **Google Gemini** or **ChatGPT** have complex code that stops auto-fix tools from working properly.
 
-1. **Download the Extension**:
-   - Go to the [Releases](https://github.com/ahmed-zaki-dev/RTL-Smart/releases) page.
-   - Download the latest `.zip` file and extract (unzip) it on your computer.
+**RTL Smart fixes this problem easily!** You can pick any broken text, fix it once, and the extension will remember it forever.
 
-2. **Open Extensions in Chrome**:
-   - Open Google Chrome.
-   - Go to `chrome://extensions/` in your address bar (or go to **Menu > Extensions > Manage Extensions**).
-
-3. **Enable Developer Mode**:
-   - Turn on **Developer mode** using the toggle switch in the top-right corner.
-
-4. **Load the Extension**:
-   - Click the **Load unpacked** button in the top-left corner.
-   - Select the unzipped folder containing the extension files.
-
-5. **Done!** 🎉
-   - Pin **RTL Smart** to your toolbar and enjoy reading Arabic content comfortably!
+### How to use it:
+1. Click the extension icon and choose **"Fix an element manually"**.
+2. Or just press **`Alt + Shift + H`** on your keyboard.
+3. Move your mouse over the text you want to fix (a purple box will show up).
+4. Click it, select **RTL (right)**, and you are done!
 
 ---
 
-## 📝 License
+## ⌨️ Keyboard Shortcuts
 
-This project is licensed under the MIT License - feel free to use and customize it!
+* **`Alt + Shift + H`**: Open the element picker to fix text.
+* **`Alt + Shift + E`**: Turn the extension ON or OFF.
+
+---
+
+## ✨ Other Useful Features
+
+- **Auto Fix**: Fixes normal Arabic paragraphs and lists automatically.
+- **Scroll Button**: Quick floating button to jump to the top or bottom of the page.
+- **Dark Mode**: Works nicely with dark and light themes.
+
+---
+
+## 🛠️ How to Install on Chrome
+
+1. Go to the [Releases page](https://github.com/ahmed-zaki-dev/rtl-smart/releases), download the latest ZIP file, and extract (unzip) it.
+2. Open Google Chrome and go to `chrome://extensions/`.
+3. Turn on **Developer mode** (top right switch).
+4. Click **Load unpacked** (top left button) and select the extension folder.
+5. That's it! Enjoy reading Arabic easily.
