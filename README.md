@@ -22,7 +22,7 @@ Some big AI websites like **Google Gemini** or **ChatGPT** have complex code tha
 
 ## ⌨️ Keyboard Shortcuts
 
-* **`Alt + Shift + H`**: Open the element picker to fix text(manual).
+* **`Alt + Shift + H`**: Open the element picker to fix text (manual).
 * **`Alt + Shift + E`**: Turn the extension ON or OFF.
 
 ---
