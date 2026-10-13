@@ -42,4 +42,4 @@ Some big AI websites like **Google Gemini** or **ChatGPT** have complex code tha
 2. Open Google Chrome and go to `chrome://extensions/`.
 3. Turn on **Developer mode** (top right switch).
 4. Click **Load unpacked** (top left button) and select the extension folder.
-5. That's it! Enjoy reading Arabic easily.
+5. That's it! Enjoy ✌︎︎ ^_~
